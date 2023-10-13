@@ -110,7 +110,5 @@ if 2014 <= year_to_look <= 2016 or 1992 <= year_to_look <= 1994 :
 
 else:
     
-    st.write("""
-    ### Currently this RDRS year is not run - only 1992-1994 and 2014-2016 are available
-    """)
+    st.warning('Currently this RDRS year is not run - only 1992-1994 and 2014-2016 are available', icon="⚠️")
 
