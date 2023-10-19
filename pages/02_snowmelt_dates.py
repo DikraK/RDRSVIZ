@@ -106,7 +106,7 @@ angles      = [ (2* pi *x/365) for x in ordinal_days]
 radii = np.linspace( 1,0.1,  len(range(1980, 2018+1)))
     
 # do the plot
-fig, axes = plt.subplots(1, 2, figsize=(12, 6))
+fig, axes = plt.subplots(1, 2, figsize=(12, 6), frameon=False)
 ax1 = axes[0]
 ax1 = plt.subplot(121, projection='polar')
 
@@ -121,7 +121,6 @@ ax1.set_yticks(yticksval)
 ax1.set_yticklabels(yticklabels)
 ax1.set_xticks(angles_lbl)      # Set the angular ticks to match the dates
 ax1.set_xticklabels(month_lbl)  # Use date labels for the angular ticks
-ax1.set_frame_on(False)
 
 # Subplot 2: Map
 if loninf > 180:
@@ -144,7 +143,7 @@ ax2.add_patch(plt.Rectangle((loninf, latinf), lonsup - loninf, latsup - latinf,
                             color='blue', alpha=0.2, transform=ccrs.PlateCarree()))
 ax2.coastlines(resolution='10m')
 ax2.set_title('Spatial Domain')
-ax2.set_frame_on(False)
+
 
 st.pyplot(fig)
 
