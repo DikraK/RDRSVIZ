@@ -121,7 +121,7 @@ ax1.set_yticks(yticksval)
 ax1.set_yticklabels(yticklabels)
 ax1.set_xticks(angles_lbl)      # Set the angular ticks to match the dates
 ax1.set_xticklabels(month_lbl)  # Use date labels for the angular ticks
-ax1.axis(off)
+ax1.axis('off')
 
 # Subplot 2: Map
 if loninf > 180:
