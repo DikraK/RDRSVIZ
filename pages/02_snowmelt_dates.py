@@ -121,7 +121,7 @@ ax1.set_yticks(yticksval)
 ax1.set_yticklabels(yticklabels)
 ax1.set_xticks(angles_lbl)      # Set the angular ticks to match the dates
 ax1.set_xticklabels(month_lbl)  # Use date labels for the angular ticks
-
+ax1.axis(off)
 
 # Subplot 2: Map
 if loninf > 180:
@@ -144,7 +144,7 @@ ax2.add_patch(plt.Rectangle((loninf, latinf), lonsup - loninf, latsup - latinf,
                             color='blue', alpha=0.2, transform=ccrs.PlateCarree()))
 ax2.coastlines(resolution='10m')
 ax2.set_title('Spatial Domain')
-
+ax2.axis('off')
 
 st.pyplot(fig)
 
