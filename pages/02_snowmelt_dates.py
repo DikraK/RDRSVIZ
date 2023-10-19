@@ -132,7 +132,7 @@ if lonsup > 180:
     lonsup -= 360
 
 
-ax2 = fig.add_subplot(121, projection=ccrs.PlateCarree())
+ax2 = fig.add_subplot(122, projection=ccrs.PlateCarree())
 # ax2 = axes[1]
 
 # ax2 = plt.subplot(122, projection=ccrs.PlateCarree())
