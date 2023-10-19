@@ -106,10 +106,13 @@ angles      = [ (2* pi *x/365) for x in ordinal_days]
 radii = np.linspace( 1,0.1,  len(range(1980, 2018+1)))
     
 # do the plot
-fig, axes = plt.subplots(1, 2, figsize=(12, 6), frameon=False)
-ax1 = axes[0]
-ax1 = plt.subplot(121, projection='polar')
+fig = plt.figure(figsize=(12, 6))
 
+
+ax1 = fig.add_subplot(121, projection='polar')
+
+# ax1 = axes[0]
+# ax1 = plt.subplot(121, projection='polar')
 
 ax1.plot(angles, radii, marker='o', linestyle='--', markersize=5, color='red')
 
@@ -128,9 +131,11 @@ if loninf > 180:
 if lonsup > 180:
     lonsup -= 360
 
-ax2 = axes[1]
 
-ax2 = plt.subplot(122, projection=ccrs.PlateCarree())
+ax2 = fig.add_subplot(121, projection=ccrs.PlateCarree())
+# ax2 = axes[1]
+
+# ax2 = plt.subplot(122, projection=ccrs.PlateCarree())
 ax2.set_extent([loninf-5 , lonsup+5, latinf-5, latsup+5], crs=ccrs.PlateCarree())
 
 # Add rivers using Cartopy's NaturalEarthFeature
@@ -145,5 +150,5 @@ ax2.coastlines(resolution='10m')
 ax2.set_title('Spatial Domain')
 
 
-# st.pyplot(fig)
+st.pyplot(fig)
 
