@@ -59,7 +59,7 @@ st.write(""" #### The melting snow melt date displayed in the figure is the medi
 st.write(""" #### The snow is considered melted once at least 30 days of snow depth stays below a threshold (close to zero)""")
 
 
-namedomain       = st.sidebar.radio('Select one:', ['Montreal-Quebec', 'West', 'East', 'Gaspesie'])
+namedomain       = st.sidebar.radio('Select one domain:', ['Montreal-Quebec', 'West', 'East', 'Gaspesie'])
 
 if namedomain == 'Montreal-Quebec':
     domain = [45, 48, 285, 290]
@@ -157,4 +157,4 @@ ax2.set_title('Spatial Domain')
 
 st.pyplot(fig)
 
-st.warning('The red markes illustrate the snow melt date for RDRSv2.1', icon="⚠️")
+st.warning('The red markers illustrate the snow melt date for RDRSv2.1', icon="⚠️")
