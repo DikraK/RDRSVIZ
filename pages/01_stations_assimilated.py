@@ -97,7 +97,7 @@ if 2014 <= year_to_look <= 2016 or 1992 <= year_to_look <= 1994 :
     ax.set_title(f"Annual Time Series - {year_to_look} - {option}")
     ax.set_xlabel('Month')
     ax.set_xticks(x_values, month_names)  # Label the x-axis with month names
-    ax.set_ylabel('Sum')
+    ax.set_ylabel('# assimilated cases')
     
     ax.grid(True)
 
