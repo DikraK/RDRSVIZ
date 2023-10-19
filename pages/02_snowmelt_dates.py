@@ -145,5 +145,5 @@ ax2.coastlines(resolution='10m')
 ax2.set_title('Spatial Domain')
 
 
-st.pyplot(fig)
+# st.pyplot(fig)
 
