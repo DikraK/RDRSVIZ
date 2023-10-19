@@ -8,3 +8,5 @@ matplotlib
 datetime
 geopandas
 cartopy==0.20.2
+proj
+geos
