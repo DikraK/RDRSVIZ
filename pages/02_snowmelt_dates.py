@@ -116,62 +116,57 @@ ax1.set_xticklabels(month_lbl)  # Use date labels for the angular ticks
 
 
 # Subplot 2: Map
-    if loninf > 180:
-        loninf -= 360
-    if lonsup > 180:
-        lonsup -= 360
-        
-    ax2 = axes[1]
-    ax2 = plt.subplot(122, projection=ccrs.PlateCarree())
-    ax2.set_extent([loninf, lonsup, latinf, latsup], crs=ccrs.PlateCarree())
-    
-    world = gpd.read_file(gpd.datasets.get_path('naturalearth_lowres'))
-    world.boundary.plot(ax=ax2, linewidth=0.5, color='black')
-    
-    
-    # Add rivers using Cartopy's NaturalEarthFeature
-    rivers = NaturalEarthFeature(category='physical', name='rivers_lake_centerlines', 
-                                scale='10m', facecolor='none', edgecolor='blue', linewidth=0.5)
+if loninf > 180:
+    loninf -= 360
+if lonsup > 180:
+    lonsup -= 360
 
-    ax2.add_feature(rivers)
-    
-    sd_val = subset_data['SD'][0, 0,:,:].values
-    sd_val[~np.isnan(sd_val)] = 1
-    
-    lats = subset_data['lat'][:].values
-    lons = subset_data['lon'][:].values - 360
+ax2 = axes[1]
+ax2 = plt.subplot(122, projection=ccrs.PlateCarree())
+ax2.set_extent([loninf, lonsup, latinf, latsup], crs=ccrs.PlateCarree())
 
-    sdp = ax2.contourf(lons, lats, sd_val, 1, colors='gray' ,
-                transform=ccrs.PlateCarree())
-
-    ax2.coastlines(resolution='10m')
-    ax2.set_title('Spatial Domain')
+world = gpd.read_file(gpd.datasets.get_path('naturalearth_lowres'))
+world.boundary.plot(ax=ax2, linewidth=0.5, color='black')
     
-    cities = gpd.read_file('data/ne_10m_populated_places.shp')
-
-    # Filter the cities (you can customize this filter based on your requirements)
-    cities_domain = cities.cx[loninf: lonsup, latinf: latsup]
     
-    major_cities  = cities_domain[cities_domain['POP_MAX'] > 100000]
-    
-    compt = 10000  
-    max_attempts = 10  # Maximum number of iterations to avoid infinite loop
+# Add rivers using Cartopy's NaturalEarthFeature
+rivers = NaturalEarthFeature(category='physical', name='rivers_lake_centerlines', 
+                            scale='10m', facecolor='none', edgecolor='blue', linewidth=0.5)
 
-    while len(major_cities) < 5 and max_attempts > 0: 
-        taille_max   = 100000 - compt;
-        major_cities = cities_domain[cities_domain['POP_MAX'] > taille_max]   
-        compt += 10000
-        max_attempts -= 1
-        
-    # Plot the city locations and labels
-    for idx, city in major_cities.iterrows():
-        ax2.text(city['geometry'].x, city['geometry'].y, city['NAME'], fontsize=8, 
-                ha='center', va='center', transform=ccrs.PlateCarree())
+ax2.add_feature(rivers)
+
+sd_val = subset_data['SD'][0, 0,:,:].values
+sd_val[~np.isnan(sd_val)] = 1
+
+lats = subset_data['lat'][:].values
+lons = subset_data['lon'][:].values - 360
+
+sdp = ax2.contourf(lons, lats, sd_val, 1, colors='gray' ,
+            transform=ccrs.PlateCarree())
+
+ax2.coastlines(resolution='10m')
+ax2.set_title('Spatial Domain')
+
+cities = gpd.read_file('data/ne_10m_populated_places.shp')
+
+# Filter the cities (you can customize this filter based on your requirements)
+cities_domain = cities.cx[loninf: lonsup, latinf: latsup]
+
+major_cities  = cities_domain[cities_domain['POP_MAX'] > 100000]
+
+compt = 10000  
+max_attempts = 10  # Maximum number of iterations to avoid infinite loop
+
+while len(major_cities) < 5 and max_attempts > 0: 
+    taille_max   = 100000 - compt;
+    major_cities = cities_domain[cities_domain['POP_MAX'] > taille_max]   
+    compt += 10000
+    max_attempts -= 1
+    
+# Plot the city locations and labels
+for idx, city in major_cities.iterrows():
+    ax2.text(city['geometry'].x, city['geometry'].y, city['NAME'], fontsize=8, 
+            ha='center', va='center', transform=ccrs.PlateCarree())
 
 st.pyplot(fig)
-
-
-else:
-    
-    st.warning('Currently no other domain are computed', icon="⚠️")
 
