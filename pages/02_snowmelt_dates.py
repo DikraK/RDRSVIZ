@@ -6,6 +6,7 @@ import numpy as np
 import os
 from configparser import ConfigParser
 import branca.colormap as cm
+import datetime
 
 import folium
 from folium.plugins import Draw
