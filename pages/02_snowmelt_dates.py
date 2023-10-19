@@ -51,8 +51,14 @@ def load_data(domain):
 #============================ END READ CONFIGURATION
 
 st.write("""
-## Plot the date of melting snow per domain
+## Plot the melting snow date per domain 
 """)
+
+st.write(""" #### The melting snow melt date displayed in the figure is the median 
+        (on per year) over the domain (shaed blue) on the left
+        #### The snow is considered melted once at least 30 days of snow depth stays below a threshold (close to zero)
+""")
+
 
 namedomain       = st.sidebar.radio('Select one:', ['Montreal-Quebec', 'West', 'East', 'Gaspesie'])
 
@@ -152,3 +158,4 @@ ax2.set_title('Spatial Domain')
 
 st.pyplot(fig)
 
+st.warning('The red markes illustrate the snow melt date for RDRSv2.1', icon="⚠️")
