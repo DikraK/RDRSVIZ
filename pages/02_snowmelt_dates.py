@@ -54,10 +54,9 @@ st.write("""
 ## Plot the melting snow date per domain 
 """)
 
-st.write(""" #### The melting snow melt date displayed in the figure is the median 
-        (on per year) over the domain (shaed blue) on the left
-        #### The snow is considered melted once at least 30 days of snow depth stays below a threshold (close to zero)
-""")
+st.write(""" #### The melting snow melt date displayed in the figure is the median (on per year) over the domain (shaded blue) on the left""")
+
+st.write(""" #### The snow is considered melted once at least 30 days of snow depth stays below a threshold (close to zero)""")
 
 
 namedomain       = st.sidebar.radio('Select one:', ['Montreal-Quebec', 'West', 'East', 'Gaspesie'])
