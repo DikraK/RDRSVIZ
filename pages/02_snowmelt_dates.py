@@ -19,19 +19,10 @@ import matplotlib.pyplot as plt
 config = ConfigParser()
 config.read("Configuration.ini")
 
-# caldas statoma
-exppath                  = config["EXPPATH"]['statoma_caldas_dir']
-
 # time information
 years                    = config["PERIOD"]["timeperiod"].split(',') 
 yearfirst                = int(years[0])
 yearend                  = int(years[1])
-
-nameexps                 = config["NAMEEXP"]["exp_name"].split(',')  #DRS1992A,DRS2014A
-
-namevars                 = config["VARIABLES"]["namevar"].split(',')  #TT,TD,SD
-
-namersas                 = config["NAMERSAS"]["namersas"]
 
 dirdata                  = "../data"
 
@@ -121,7 +112,7 @@ ax1 = fig.add_subplot(121, projection='polar')
 
 ax1.plot(angles, radii, marker='o', linestyle='--', markersize=5, color='red')
 
-yearsval    = np.arange(1980, 2018 + 1)
+yearsval    = np.arange(yearfirst, yearend + 1)
 yticksval   = radii[::5]
 yticklabels = [str(x) for x in yearsval[::5]]
 
