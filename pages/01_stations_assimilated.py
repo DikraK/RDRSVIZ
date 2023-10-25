@@ -56,7 +56,6 @@ st.write("""
 """)
 
 
-
 option_exp = st.selectbox("Select an experiment:", ("DRS1992A", "DRS2014A", "DRS1992IC401", "DRS1992IC401wCWA" ))
 
 namersas   = config[option_exp]['RSAS']
@@ -73,8 +72,6 @@ if year_to_look in years:
     # extract the datasets 
     data_var, monthval    = load_data(option, option_exp, year_to_look, namersas)
 
-    
-    
     data_var['LON'] = data_var['LON'] -360
 
     # do the map
@@ -100,7 +97,7 @@ if year_to_look in years:
 
     month_names = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
     # Create the plot
-    fig, ax = plt.subplots()
+    fig, ax = plt.subplots(figsize=(10, 7))
     ax.plot(x_values, y_values, marker='o', linestyle='-', color='m')
     
     ax.set_title(f"Annual Time Series - {year_to_look} - {option}")
