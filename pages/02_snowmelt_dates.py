@@ -59,7 +59,7 @@ st.write(""" #### The melting snow melt date displayed in the figure is the medi
 st.write(""" #### The snow is considered melted once at least 30 days of snow depth stays below a threshold (close to zero)""")
 
 
-namedomain       = st.sidebar.radio('Select one domain:', ['Montreal-Quebec', 'West', 'East', 'Gaspesie'])
+namedomain       = st.radio('Select one domain:', ['Montreal-Quebec', 'West', 'East', 'Gaspesie'])
 
 if namedomain == 'Montreal-Quebec':
     domain = [45, 48, 285, 290]
