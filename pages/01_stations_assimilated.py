@@ -62,7 +62,7 @@ years      = [int(x) for x in years_s]
     
 year_to_look = st.slider('Select a year', min_value=yearfirst, max_value=yearend)
 
-if year_to_look is in years:        
+if year_to_look in years:        
     # extract the name of the directory
     option        = st.selectbox("Variables",("TT", "TD", "SD"))
 
