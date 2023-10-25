@@ -53,7 +53,7 @@ def load_data(namevar, nameexp, year, namersas):
 st.write("""
 ## Number of assimilated stations in CaLDAS derived from statoma files over the reanalysis period
 """)
-option_exp = st.selectbox("Select an experiment": ("DRS1992A", "DRS2014A", "DRS1992IC401", "DRS1992IC401wCWA" ))
+option_exp = st.selectbox("Select an experiment:", ("DRS1992A", "DRS2014A", "DRS1992IC401", "DRS1992IC401wCWA" ))
 
 namersas   = config[option_exp]['RSAS']
 exppath    = config[option_exp]['EXPPATH']
