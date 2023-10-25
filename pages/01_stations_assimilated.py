@@ -97,7 +97,7 @@ if year_to_look in years:
 
     month_names = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
     # Create the plot
-    fig, ax = plt.subplots(figsize=(7, 4))
+    fig, ax = plt.subplots(figsize=(5, 3))
     ax.plot(x_values, y_values, marker='o', linestyle='-', color='m')
     
     ax.set_title(f"Annual Time Series - {year_to_look} - {option}")
