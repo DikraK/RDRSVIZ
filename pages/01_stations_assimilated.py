@@ -72,8 +72,7 @@ if year_to_look in years:
 
     # extract the datasets 
     data_var, monthval    = load_data(option, option_exp, year_to_look, namersas)
-    
-    col1, col2 = st.columns([0.5,0.5])
+
     
     
     data_var['LON'] = data_var['LON'] -360
@@ -89,32 +88,32 @@ if year_to_look in years:
     m.add_child(colormap)
     folium.map.LayerControl('topleft', collapsed= False).add_to(m)
     
-    with col1: 
-        folium_static(m, width=600, height=320)
+
+    folium_static(m, width=600, height=320)
+
+
+    st.subheader('Annual cycles of the number of assimilated stations')
     
-    with col2:
-        st.subheader('Annual cycles of the number of assimilated stations')
-        
-        # Create the x-axis values (months) and the corresponding y-axis values (sums)
-        x_values = range(1, 13)  # Month numbers from 1 to 12
-        y_values = monthval.tolist()  # Convert the Series to a list
+    # Create the x-axis values (months) and the corresponding y-axis values (sums)
+    x_values = range(1, 13)  # Month numbers from 1 to 12
+    y_values = monthval.tolist()  # Convert the Series to a list
 
-        month_names = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-        # Create the plot
-        fig, ax = plt.subplots()
-        ax.plot(x_values, y_values, marker='o', linestyle='-', color='m')
-        
-        ax.set_title(f"Annual Time Series - {year_to_look} - {option}")
-        ax.set_xlabel('Month')
-        ax.set_xticks(x_values, month_names)  # Label the x-axis with month names
-        ax.set_ylabel('# assimilated cases')
-        
-        ax.grid(True)
+    month_names = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+    # Create the plot
+    fig, ax = plt.subplots()
+    ax.plot(x_values, y_values, marker='o', linestyle='-', color='m')
+    
+    ax.set_title(f"Annual Time Series - {year_to_look} - {option}")
+    ax.set_xlabel('Month')
+    ax.set_xticks(x_values, month_names)  # Label the x-axis with month names
+    ax.set_ylabel('# assimilated cases')
+    
+    ax.grid(True)
 
-        # Use ScalarFormatter to format the x-axis tick labels
-        ax.xaxis.set_major_formatter(ScalarFormatter())
-        
-        st.pyplot(fig, use_container_width=True)
+    # Use ScalarFormatter to format the x-axis tick labels
+    ax.xaxis.set_major_formatter(ScalarFormatter())
+    
+    st.pyplot(fig, use_container_width=True)
     
 
 else:
