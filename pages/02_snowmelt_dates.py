@@ -30,15 +30,56 @@ dirdata                  = "../data"
 #%% LOAD DATA
 # function to load the data and cache it
 @st.cache_data
-def load_data(domain):
+def load_data(domain, nameexp):
 
     latinf, latsup, loninf, lonsup = domain
     
-    namefile           = f"data/melting_date_stat_domain_lat{latinf}to{latsup}_lon{loninf}to{lonsup}.parquet"
+    if nameexp == "v21":    
+        namefile           = f"data/melting_date_stat_domain_lat{latinf}to{latsup}_lon{loninf}to{lonsup}.parquet"
+    else:
+        namefile           = f"data/melting_date_stat_domain_lat{latinf}to{latsup}_lon{loninf}to{lonsup}_{nameexp}.parquet"
     data               = pd.read_parquet(namefile)
     
     return(data)        
 
+
+def estimateangle(data_melt_ds):
+    
+    # ordinal day
+    ordinal_days     = []
+    for date_in in data_melt_ds['MEDIAN']:
+        if pd.isna(date_in):
+            ordinal_day = float('nan')
+        else: 
+            # Get the ordinal day
+            ordinal_day = date_in.timetuple().tm_yday
+        
+        ordinal_days.append(ordinal_day)
+        
+    angles      = [ (2* pi *x/365) for x in ordinal_days]
+    
+    yy = data_melt_ds['YEAR'].tolist()
+    # extract the year
+    df          = pd.DataFrame({'YEAR': yy, 'ANGLE': angles})
+    
+    # Generate a list of years from 1980 to 2018
+    all_years    = list(range(1980, 2019))
+
+    # Merge the existing DataFrame with the full list of years and fill NaN
+    result_df = pd.DataFrame({'YEAR': all_years})
+    result_df = result_df.merge(df, on='YEAR', how='left')
+    result_df['ANGLE'] = result_df['ANGLE'].fillna(np.nan)
+
+    # If needed, you can sort the DataFrame by the 'YEAR' column
+    result_df = result_df.sort_values(by='YEAR')
+    
+    # estimate the radiius
+    radii       = np.linspace( 1,0.1,  len(range(1980, 2018+1)))
+    result_df['RADII'] = radii
+    
+    return(result_df)
+
+    
 #============================ END READ CONFIGURATION
 
 st.write("""
@@ -63,7 +104,9 @@ elif namedomain == 'Gaspesie':
     
 
 latinf, latsup, loninf, lonsup = domain
-data_melt = load_data(domain)
+
+data_melt_v21 = load_data(domain, "v21")
+data_melt_v3  = load_data(domain, "DRS1992IC401wCWA")
 
 
 #%%
@@ -86,31 +129,20 @@ for m in range(1,13):
     
 angles_lbl  = [ (2* pi *x/365) for x in ordinal_days_lbl] 
 
-ordinal_days     = []
-for date_in in data_melt['MEDIAN']:
-    if pd.isna(date_in):
-        ordinal_day = float('nan')
-    else: 
-        # Get the ordinal day
-        ordinal_day = date_in.timetuple().tm_yday
-    
-    ordinal_days.append(ordinal_day)
-    
-angles      = [ (2* pi *x/365) for x in ordinal_days]
+dfout_v2 = estimateangle(data_melt_v21)
+dfout_v3 = estimateangle(data_melt_v3)
+dfout_v3.loc[dfout_v3['YEAR'] == 1991, 'ANGLE'] = np.nan
 
-# estimate the radiius
-radii = np.linspace( 1,0.1,  len(range(1980, 2018+1)))
-    
+#%%    
 # do the plot
 fig = plt.figure(figsize=(12, 6))
 
-
 ax1 = fig.add_subplot(121, projection='polar')
 
-# ax1 = axes[0]
-# ax1 = plt.subplot(121, projection='polar')
+ax1.plot(dfout_v2['ANGLE'], dfout_v2['RADII'], marker='o', linestyle='--', markersize=5, color='red', label="V2.1")
+ax1.plot(dfout_v3['ANGLE'], dfout_v3['RADII'], marker='*', linestyle='--', markersize=6, color='blue', label="DRS1992IC401wCWA")
 
-ax1.plot(angles, radii, marker='o', linestyle='--', markersize=5, color='red')
+radii       = dfout_v2['RADII'].tolist()
 
 yearsval    = np.arange(yearfirst, yearend + 1)
 yticksval   = radii[::5]
@@ -120,6 +152,7 @@ ax1.set_yticks(yticksval)
 ax1.set_yticklabels(yticklabels)
 ax1.set_xticks(angles_lbl)      # Set the angular ticks to match the dates
 ax1.set_xticklabels(month_lbl)  # Use date labels for the angular ticks
+ax1.legend(loc="lower right")
 
 # Subplot 2: Map
 if loninf > 180:
