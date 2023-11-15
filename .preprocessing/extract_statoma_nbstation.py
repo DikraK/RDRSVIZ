@@ -71,50 +71,55 @@ for nameexp in nameexps:
     dirname['TT']   = f"{exppath}/{nameexp}/{namersas}/gridpt/mist/statoma/screen/yin"  
     dirname['TD']   = dirname['TT']
     dirname['SD']   = f"{exppath}/{nameexp}/{namersas}/gridpt/mist/statoma/snow/yin"  
-    
+
     for namevar in namevars:
         print(namevar)
         for year in years:
-            # load the data
-            data_var    = load_data(namevar, year, dirname[namevar])
-
-            # format the date
-            data_var['DATE'] = pd.to_datetime(data_var['DATE'], format="%Y%m%d%H")
-
-            # Extract year and month
-            data_var['MONTH'] = data_var['DATE'].dt.month
-
-            # Group by 'LAT', 'LON', 'ALT', and 'MONTH', and count the size
-            grouped = data_var.groupby(['LAT', 'LON', 'ALT', 'MONTH']).size().reset_index(name='COUNT')
-
-            # Pivot the table to create one column for each month
-            pivoted = grouped.pivot_table(index=['LAT', 'LON', 'ALT'], 
-                                        columns='MONTH', values='COUNT', fill_value=0).reset_index()
-
-            # List of month names and their corresponding month numbers
-            month_names = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-            all_months = list(range(1, 13))  # All month numbers from 1 to 12
-
-            # Identify missing months
-            missing_months = set(all_months) - set(pivoted.columns[3:])
-
-            # Insert columns for missing months with zeros
-            for month in missing_months:
-                pivoted[month_names[month - 1]] = 0
-
-            # Rename columns with month names
-            pivoted.columns  = ['LAT', 'LON', 'ALT'] + month_names
-
-            pivoted['Total'] = pivoted.iloc[:, 3:].sum(axis=1)
-
-            # Save the DataFrame to a Parquet file
-            namefileout      = f"{dirdata}/count_nbstation_assim_{namevar}_{nameexp}_{namersas}_{year}.parquet"
-            pivoted.to_parquet(namefileout, index=False) 
             
+            namefileout      = f"{dirdata}/count_nbstation_assim_{namevar}_{nameexp}_{namersas}_{year}.parquet"
+            print(namefileout)
             if os.path.isfile(namefileout):
-                print(f"File {namefileout} has been created successfully.")
+                print(f"File {namefileout} already exist")
             else:
-                print(f"File {namefileout} was not created.")
+                # load the data
+                data_var    = load_data(namevar, year, dirname[namevar])
+
+                # format the date
+                data_var['DATE'] = pd.to_datetime(data_var['DATE'], format="%Y%m%d%H")
+
+                # Extract year and month
+                data_var['MONTH'] = data_var['DATE'].dt.month
+
+                # Group by 'LAT', 'LON', 'ALT', and 'MONTH', and count the size
+                grouped = data_var.groupby(['LAT', 'LON', 'ALT', 'MONTH']).size().reset_index(name='COUNT')
+
+                # Pivot the table to create one column for each month
+                pivoted = grouped.pivot_table(index=['LAT', 'LON', 'ALT'], 
+                                            columns='MONTH', values='COUNT', fill_value=0).reset_index()
+
+                # List of month names and their corresponding month numbers
+                month_names = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+                all_months = list(range(1, 13))  # All month numbers from 1 to 12
+
+                # Identify missing months
+                missing_months = set(all_months) - set(pivoted.columns[3:])
+
+                # Insert columns for missing months with zeros
+                for month in missing_months:
+                    pivoted[month_names[month - 1]] = 0
+
+                # Rename columns with month names
+                pivoted.columns  = ['LAT', 'LON', 'ALT'] + month_names
+
+                pivoted['Total'] = pivoted.iloc[:, 3:].sum(axis=1)
+
+                # Save the DataFrame to a Parquet file
+                pivoted.to_parquet(namefileout, index=False) 
+                
+                if os.path.isfile(namefileout):
+                    print(f"File {namefileout} has been created successfully.")
+                else:
+                    print(f"File {namefileout} was not created.")
 
 # # #%% 
 

@@ -56,7 +56,7 @@ st.write("""
 """)
 
 
-option_exp = st.selectbox("Select an experiment:", ("DRS1992A", "DRS2014A", "DRS1992IC401", "DRS1992IC401wCWA" ))
+option_exp = st.selectbox("Select an experiment:", ("DRS1992A", "DRS2014A", "DRS1992IC401", "DRS1992IC401wCHDSD" ))
 
 namersas   = config[option_exp]['RSAS']
 exppath    = config[option_exp]['EXPPATH']

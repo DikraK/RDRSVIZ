@@ -6,26 +6,8 @@ import numpy as np
 
 from configparser import ConfigParser
 
-from math import pi, cos, sin
-import cartopy.crs as ccrs
-import cartopy.feature as cfeature
-
-from cartopy.feature import NaturalEarthFeature
-import matplotlib.pyplot as plt
-
 from PIL import Image
 
-#============================= FUNCTIONS
-#%% LOAD DATA
-# function to load the data and cache it
-@st.cache_data
-def load_data(year, nameexp, namevar):
-    
-    namefile           = f"data/diff_rsas_picicprism_{nameexp}_{year}_{namevar}.nc"
-    
-    data               = xr.open_dataset(namefile)
-    
-    return(data)        
 
     
 #============================ END READ CONFIGURATION
