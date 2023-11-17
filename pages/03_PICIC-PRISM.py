@@ -36,8 +36,13 @@ if namevar and nameexp and year_select:
         st.warning(f"Currently this map for precipitation is not available for IC401 - try an other experiment", icon="⚠️")
     else:
         if namevar == "PR" and nameexp == "IC401wCHDSD":
+            typediff = st.radio("Select one type of difference", ["DIFFERENCE (mm)", "RELATIVE DIFFERENCE (%)"], index=None)
+            
+            if typediff == "DIFFERENCE (mm)":
+                image_name = f"figures/fig_diff_picic_rdrs_{nameexp}_{year_select}_{namevar}.png"
+            else:
+                image_name = f"figures/fig_diff_rel_picic_rdrs_{nameexp}_{year_select}_{namevar}.png"                    
             st.info('06-18 leadtimes of Precipitation are taken from RDRS')
-            image_name = f"figures/fig_diff_picic_rdrs_{nameexp}_{year_select}_{namevar}.png"
         else:
             st.info('Analysis fields are taken from RSAS')
             image_name = f"figures/fig_diff_picic_rsas_{nameexp}_{year_select}_{namevar}.png"
