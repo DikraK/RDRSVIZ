@@ -106,7 +106,7 @@ elif namedomain == 'Gaspesie':
 latinf, latsup, loninf, lonsup = domain
 
 data_melt_v21       = load_data(domain, "v21")
-data_melt_v3wCWA    = load_data(domain, "DRS1992IC401wCWA")
+data_melt_v3wCWA    = load_data(domain, "DRS1992IC401wCHDSD")
 data_melt_v3        = load_data(domain, "DRS1992IC401")
 
 #%%
