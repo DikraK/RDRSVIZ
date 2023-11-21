@@ -146,7 +146,7 @@ ax1 = fig.add_subplot(121, projection='polar')
 
 ax1.plot(dfout_v2['ANGLE'], dfout_v2['RADII'], marker='o', linestyle='--', markersize=5, color='red', label="V2.1")
 ax1.plot(dfout_v3['ANGLE'], dfout_v3['RADII'], marker='*', linestyle='--', markersize=8, color='blue', label="DRS1992IC401")
-ax1.plot(dfout_v3wCWA['ANGLE'], dfout_v3wCWA['RADII'], marker='D', linestyle='--', markersize=7, color='purple', label="DRS1992IC401wCWA")
+ax1.plot(dfout_v3wCWA['ANGLE'], dfout_v3wCWA['RADII'], marker='D', linestyle='--', markersize=7, color='purple', label="DRS1992IC401wCHDSD")
 
 radii       = dfout_v2['RADII'].tolist()
 
