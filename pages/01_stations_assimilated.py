@@ -56,14 +56,15 @@ st.write("""
 """)
 
 
-option_exp = st.selectbox("Select an experiment:", ("DRS1992A", "DRS2014A", "DRS1992IC401", "DRS1992IC401wCHDSD" ))
+option_exp = st.radio("Select an experiment:", ("DRS1992A", "DRS2014A", "DRS1992IC401", "DRS1992IC401wCHDSD", "DRS1992IC401v3"))
+
 
 namersas   = config[option_exp]['RSAS']
 exppath    = config[option_exp]['EXPPATH']
 years_s    = config[option_exp]['YEAR'].split(',')
 years      = [int(x) for x in years_s]    
-    
-year_to_look = st.slider('Select a year', min_value=yearfirst, max_value=yearend)
+
+year_to_look = st.radio("Select a year:", (1992, 2014))
 
 if year_to_look in years:        
     # extract the name of the directory
@@ -115,5 +116,5 @@ if year_to_look in years:
 
 else:
     
-    st.warning(f"Currently this experiments RDRS year is not run - only {years_s} is/are available", icon="⚠️")
+    st.warning(f"The year you selected {year_to_look} is not available for experiment {option_exp}", icon="⚠️")
 
