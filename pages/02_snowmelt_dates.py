@@ -108,6 +108,7 @@ latinf, latsup, loninf, lonsup = domain
 data_melt_v21       = load_data(domain, "v21")
 data_melt_v3wCWA    = load_data(domain, "DRS1992IC401wCHDSD")
 data_melt_v3        = load_data(domain, "DRS1992IC401")
+data_melt_v3_bis    = load_data(domain, "DRS1992IC401v3")
 
 #%%
 # DO THE PLOT
@@ -137,6 +138,8 @@ dfout_v3.loc[dfout_v3['YEAR'] == 1991, 'ANGLE'] = np.nan
 dfout_v3wCWA = estimateangle(data_melt_v3wCWA)
 dfout_v3wCWA.loc[dfout_v3wCWA['YEAR'] == 1991, 'ANGLE'] = np.nan
 
+dfout_v3_bis = estimateangle(data_melt_v3_bis)
+dfout_v3_bis.loc[dfout_v3_bis['YEAR'] == 1993, 'ANGLE'] = np.nan
 
 #%%    
 # do the plot
@@ -144,9 +147,14 @@ fig = plt.figure(figsize=(12, 6))
 
 ax1 = fig.add_subplot(121, projection='polar')
 
-ax1.plot(dfout_v2['ANGLE'], dfout_v2['RADII'], marker='o', linestyle='--', markersize=5, color='red', label="V2.1")
-ax1.plot(dfout_v3['ANGLE'], dfout_v3['RADII'], marker='*', linestyle='--', markersize=8, color='blue', label="DRS1992IC401")
-ax1.plot(dfout_v3wCWA['ANGLE'], dfout_v3wCWA['RADII'], marker='D', linestyle='--', markersize=7, color='purple', label="DRS1992IC401wCHDSD")
+ax1.plot(dfout_v2['ANGLE'], dfout_v2['RADII'], marker='o', linestyle='--', markersize=5, 
+        color='sandybrown', label="V2.1")
+ax1.plot(dfout_v3['ANGLE'], dfout_v3['RADII'], marker='*', linestyle='--', markersize=8, 
+        color='blue', label="DRS1992IC401")
+ax1.plot(dfout_v3wCWA['ANGLE'], dfout_v3wCWA['RADII'], marker='D', linestyle='--', markersize=7, 
+        color='purple', label="DRS1992IC401wCHDSD")
+ax1.plot(dfout_v3_bis['ANGLE'], dfout_v3_bis['RADII'], marker='>', linestyle='--', markersize=8, 
+        color='hotpink', markeredgecolor='darkred', label="DRS1992IC401v3")
 
 radii       = dfout_v2['RADII'].tolist()
 
