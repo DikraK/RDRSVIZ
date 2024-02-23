@@ -239,7 +239,7 @@ data_prcp_agg_v01v3  = data_prcp_agg_v01v3_[data_prcp_agg_v01v3_['year'] == 1992
 
 unit = 1000
 
-fig = plt.figure(figsize=(8, 4))
+fig = plt.figure(figsize=(4, 2))
 
 ax = fig.add_subplot(111)
 
