@@ -98,14 +98,17 @@ if year_to_look in years:
 
     month_names = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
     # Create the plot
-    fig, ax = plt.subplots(figsize=(4, 2))
-    ax.plot(x_values, y_values, marker='o', linestyle='-', color='m')
+    fig = plt.figure(figsize=(5.2, 2.6))
+
+    ax = fig.add_subplot(111)
+
+    ax.plot(x_values, y_values, marker='o', linestyle='-', color='m', markersize=4)
     
-    ax.set_title(f"Annual Time Series - {year_to_look} - {option}")
-    ax.set_xlabel('Month')
+    ax.set_title(f"Annual Time Series - {year_to_look} - {option}", fontsize=7)
+    ax.set_xlabel('Month', fontsize=7)
     ax.set_xticks(x_values, month_names)  # Label the x-axis with month names
-    ax.set_ylabel('# assimilated cases')
-    
+    ax.set_ylabel('# assimilated cases', fontsize=7)
+    ax.tick_params(axis='both', which='major', labelsize=7)
     ax.grid(True)
 
     # Use ScalarFormatter to format the x-axis tick labels
