@@ -64,7 +64,7 @@ def doplottimeseries(axin, data_prcp_agg, unit, marker_t, colorm, colore, labelt
         alphaval = 0.7
         
     axin.plot(data_prcp_agg['year'], unit*data_prcp_agg['yearlysum'], 
-        marker=marker_t, linestyle='--', markersize=7, 
+        marker=marker_t, linestyle='--', markersize=5, 
         color=colorm, markeredgecolor=colore, label=labeltxt)
 
     axin.fill_between(data_prcp_agg['year'], 
