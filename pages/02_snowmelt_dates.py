@@ -252,10 +252,10 @@ ax = doplottimeseries(ax, data_prcp_agg_v01v3, unit,
 ax = doplottimeseries(ax, data_prcp_agg_v01, unit, 
                     '*', 'blue', 'blue', "DRS1992IC401")
 
-ax.legend(loc="lower right")
-ax.set_title('Precipitation accumulation over the domain')
-ax.set_ylabel('[mm]')
-ax.set_xlabel('year')
+ax.legend(loc="lower right", fontsize='9')
+ax.set_title('Precipitation accumulation over the domain', fontsize='9')
+ax.set_ylabel('[mm]', fontsize='9')
+ax.set_xlabel('year', fontsize='9')
 ax.grid()
 
 st.pyplot(fig)
