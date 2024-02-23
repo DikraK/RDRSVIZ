@@ -87,8 +87,8 @@ if year_to_look in years:
     folium.map.LayerControl('topleft', collapsed= False).add_to(m)
     
 
-    folium_static(m, width=600, height=320)
-
+    #folium_static(m, width=600, height=320)
+    folium_static(m, width=500, height=300)
 
     st.subheader('Annual cycles of the number of assimilated stations')
     
