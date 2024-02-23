@@ -42,7 +42,38 @@ def load_data(domain, nameexp):
     
     return(data)        
 
+@st.cache_data
+def load_prcp_data(domain, nameexp):
+    latinf, latsup, loninf, lonsup = domain
+    
+    if nameexp == "v21":    
+        nameexpfile = "V2P1"
+    else:
+        nameexpfile = nameexp
+        
+    namefile           = f"data/yearly_prcp_domain_lat{latinf}to{latsup}_lon{loninf}to{lonsup}_{nameexpfile}.parquet"
+    data               = pd.read_parquet(namefile)
+    
+    return(data)        
 
+def doplottimeseries(axin, data_prcp_agg, unit, marker_t, colorm, colore, labeltxt):
+    
+    if labeltxt == "V2.1":
+        alphaval = 0.4
+    else:
+        alphaval = 0.7
+        
+    axin.plot(data_prcp_agg['year'], unit*data_prcp_agg['yearlysum'], 
+        marker=marker_t, linestyle='--', markersize=7, 
+        color=colorm, markeredgecolor=colore, label=labeltxt)
+
+    axin.fill_between(data_prcp_agg['year'], 
+                    unit*data_prcp_agg['yearlysum_25pct'], 
+                    unit*data_prcp_agg['yearlysum_75pct'], 
+                    color=colorm, alpha=alphaval)   
+    
+    return(axin)
+        
 def estimateangle(data_melt_ds):
     
     # ordinal day
@@ -83,12 +114,12 @@ def estimateangle(data_melt_ds):
 #============================ END READ CONFIGURATION
 
 st.write("""
-## Plot the melting snow date per domain 
+## Melting snow date per domain 
 """)
 
-st.write(""" #### The melting snow melt date displayed in the figure is the median (on per year) over the domain (shaded blue) on the left""")
+st.write(""" The melting snow melt date displayed in the figure is the median snow melt date (one per year) over the domain (shaded blue) on the left""")
 
-st.write(""" #### The snow is considered melted once at least 30 days of snow depth stays below a threshold (close to zero)""")
+st.info("""The snow is considered melted once at least 30 days of snow depth stays below a threshold (close to zero)""")
 
 
 namedomain       = st.radio('Select one domain:', ['Montreal-Quebec', 'West', 'East', 'Gaspesie'])
@@ -192,7 +223,42 @@ ax2.add_patch(plt.Rectangle((loninf, latinf), lonsup - loninf, latsup - latinf,
 ax2.coastlines(resolution='10m')
 ax2.set_title('Spatial Domain')
 
+st.pyplot(fig)
+
+#%%    
+# do the plot
+
+data_prcp_agg_v21   = load_prcp_data(domain, "v21")
+
+data_prcp_agg_v01_ = load_prcp_data(domain, "DRS1992IC401")
+data_prcp_agg_v01  = data_prcp_agg_v01_[data_prcp_agg_v01_['year'] == 1992].reset_index(drop=True)
+
+data_prcp_agg_v01v3_ = load_prcp_data(domain, "DRS1992IC401v3")
+data_prcp_agg_v01v3  = data_prcp_agg_v01v3_[data_prcp_agg_v01v3_['year'] == 1992].reset_index(drop=True)
+
+
+unit = 1000
+
+fig = plt.figure(figsize=(8, 4))
+
+ax = fig.add_subplot(111)
+
+ax = doplottimeseries(ax, data_prcp_agg_v21, unit, 
+                    'o', 'sandybrown', 'sandybrown', "V2.1")
+
+ax = doplottimeseries(ax, data_prcp_agg_v01v3, unit, 
+                    '>', 'hotpink', 'darkred', "DRS1992IC401v3")
+                    
+ax = doplottimeseries(ax, data_prcp_agg_v01, unit, 
+                    '*', 'blue', 'blue', "DRS1992IC401")
+
+ax.legend(loc="lower right")
+ax.set_title('Precipitation accumulation over the domain')
+ax.set_ylabel('[mm]')
+ax.set_xlabel('year')
+ax.grid()
 
 st.pyplot(fig)
 
-st.warning('The red markers illustrate the snow melt date for RDRSv2.1', icon="⚠️")
+st.info("The shaded area corresponds to the 25th and 75th percentiles of the accumulation precipitation over the area")
+
