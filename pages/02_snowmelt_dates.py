@@ -137,18 +137,19 @@ elif namedomain == 'Gaspesie':
 latinf, latsup, loninf, lonsup = domain
 
 data_melt_v21               = load_data(domain, "v21")
-data_melt_v3wCWA            = load_data(domain, "DRS1992IC401wCHDSD")
+# data_melt_v3wCWA            = load_data(domain, "DRS1992IC401wCHDSD")
 data_melt_v3                = load_data(domain, "DRS1992IC401")
 data_melt_v3_bis            = load_data(domain, "DRS1992IC401v3")
 data_melt_ic425             = load_data(domain, "DRS1992IC425")
 data_melt_2014_ic425        = load_data(domain, "DRS2014IC425")
 data_melt_2014_ic421        = load_data(domain, "DRS2014IC421")
+data_melt_1992_ic421        = load_data(domain, "DRS1992IC421")
 
 #%%
 # DO THE PLOT
     
 # COORDINATES MONTH
-month_lbl        = ['Jan', 'Fev', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+month_lbl        = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
 ordinal_days_lbl = [] 
 for m in range(1,13):
     if m <10:
@@ -169,8 +170,8 @@ dfout_v2 = estimateangle(data_melt_v21)
 dfout_v3 = estimateangle(data_melt_v3)
 dfout_v3.loc[dfout_v3['YEAR'] != 1992, 'ANGLE'] = np.nan
 
-dfout_v3wCWA = estimateangle(data_melt_v3wCWA)
-dfout_v3wCWA.loc[dfout_v3wCWA['YEAR'] != 1992, 'ANGLE'] = np.nan
+# dfout_v3wCWA = estimateangle(data_melt_v3wCWA)
+# dfout_v3wCWA.loc[dfout_v3wCWA['YEAR'] != 1992, 'ANGLE'] = np.nan
 
 dfout_v3_bis = estimateangle(data_melt_v3_bis)
 dfout_v3_bis.loc[dfout_v3_bis['YEAR'] != 1992, 'ANGLE'] = np.nan
@@ -183,6 +184,10 @@ dfout_2014_ic425.loc[dfout_2014_ic425['YEAR'] != 2014, 'ANGLE'] = np.nan
 
 dfout_2014_ic421 = estimateangle(data_melt_2014_ic421)
 dfout_2014_ic421.loc[dfout_2014_ic425['YEAR'] != 2014, 'ANGLE'] = np.nan
+
+dfout_1992_ic421 = estimateangle(data_melt_1992_ic421)
+dfout_1992_ic421.loc[dfout_1992_ic421['YEAR'] != 1992, 'ANGLE'] = np.nan
+
 #%%    
 # do the plot
 fig = plt.figure(figsize=(12, 6))
@@ -194,32 +199,44 @@ ax1.plot(dfout_v2['ANGLE'], dfout_v2['RADII'], marker='o', linestyle='--', marke
 ax1.plot(dfout_v3['ANGLE'], dfout_v3['RADII'], marker='*', linestyle='--', markersize=8, 
         color='blue', label="DRS1992IC401")
 
-ax1.plot(dfout_v3wCWA['ANGLE'], dfout_v3wCWA['RADII'], marker='D', linestyle='--', markersize=7, 
-        color='purple', label="DRS1992IC401wCHDSD")
+# ax1.plot(dfout_v3wCWA['ANGLE'], dfout_v3wCWA['RADII'], marker='D', linestyle='--', markersize=7, 
+#         color='purple', label="DRS1992IC401wCHDSD")
 
 ax1.plot(dfout_v3_bis['ANGLE'], dfout_v3_bis['RADII'], marker='>', linestyle='--', markersize=8, 
         color='hotpink', markeredgecolor='darkred', label="DRS1992IC401v3")
 
 ax1.plot(dfout_ic425['ANGLE'], dfout_ic425['RADII'], marker='X', linestyle='--', markersize=8, 
-        color='limegreen', label="DRS1992IC425")
+        color='limegreen', markeredgecolor='forestgreen', label="IC425")
 
 ax1.plot(dfout_2014_ic425['ANGLE'], dfout_2014_ic425['RADII'], marker='X', linestyle='--', markersize=8, 
-        color='limegreen', label="DRS2014IC425")
+        color='limegreen', markeredgecolor='forestgreen')
 
 ax1.plot(dfout_2014_ic421['ANGLE'], dfout_2014_ic421['RADII'], marker='^', linestyle='--', markersize=7, 
-        color='c', label="DRS2014IC421")
+        color='c', label="IC421", markeredgecolor='midnightblue')
+
+ax1.plot(dfout_1992_ic421['ANGLE'], dfout_1992_ic421['RADII'], marker='^', linestyle='--', markersize=7, 
+        color='c', markeredgecolor='midnightblue')
+
 
 radii       = dfout_v2['RADII'].tolist()
 
+# arrange the ticks
 yearsval    = np.arange(yearfirst, yearend + 1)
-yticksval   = radii[::5]
-yticklabels = [str(x) for x in yearsval[::5]]
-
+yticksval   = radii[::10]
+yticklabels = [str(x) for x in yearsval[::10]]
 ax1.set_yticks(yticksval)
-ax1.set_yticklabels(yticklabels)
+ax1.set_yticklabels(yticklabels, fontsize=8, color="grey")
+
 ax1.set_xticks(angles_lbl)      # Set the angular ticks to match the dates
 ax1.set_xticklabels(month_lbl)  # Use date labels for the angular ticks
-ax1.legend(loc="lower right")
+
+# legend
+ax1.legend(loc='best', ncol=2)
+
+# Set the theta limits to show only the top half of the circle
+ax1.set_thetamin(0)
+ax1.set_thetamax(180)
+    
 
 # Subplot 2: Map
 if loninf > 180:
@@ -227,11 +244,9 @@ if loninf > 180:
 if lonsup > 180:
     lonsup -= 360
 
-
 ax2 = fig.add_subplot(122, projection=ccrs.PlateCarree())
 # ax2 = axes[1]
 
-# ax2 = plt.subplot(122, projection=ccrs.PlateCarree())
 ax2.set_extent([loninf-5 , lonsup+5, latinf-5, latsup+5], crs=ccrs.PlateCarree())
 
 # Add rivers using Cartopy's NaturalEarthFeature
