@@ -56,7 +56,7 @@ st.write("""
 """)
 
 
-option_exp = st.radio("Select an experiment:", ("DRS1992A", "DRS2014A", "DRS1992IC401", "DRS1992IC401wCHDSD", "DRS1992IC401v3"))
+option_exp = st.radio("Select an experiment:", ("DRS1992IC401", "DRS1992IC401wCHDSD", "DRS1992IC401v3", "DRS1992IC425", "DRS2014IC425"))
 
 
 namersas   = config[option_exp]['RSAS']
