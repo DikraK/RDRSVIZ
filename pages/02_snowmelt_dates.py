@@ -137,7 +137,7 @@ elif namedomain == 'Gaspesie':
 latinf, latsup, loninf, lonsup = domain
 
 data_melt_v21               = load_data(domain, "v21")
-# data_melt_v3wCWA            = load_data(domain, "DRS1992IC401wCHDSD")
+data_melt_v3wCHDSD          = load_data(domain, "DRS1992IC401wCHDSD")
 data_melt_v3                = load_data(domain, "DRS1992IC401")
 data_melt_v3_bis            = load_data(domain, "DRS1992IC401v3")
 data_melt_ic425             = load_data(domain, "DRS1992IC425")
@@ -170,8 +170,8 @@ dfout_v2 = estimateangle(data_melt_v21)
 dfout_v3 = estimateangle(data_melt_v3)
 dfout_v3.loc[dfout_v3['YEAR'] != 1992, 'ANGLE'] = np.nan
 
-# dfout_v3wCWA = estimateangle(data_melt_v3wCWA)
-# dfout_v3wCWA.loc[dfout_v3wCWA['YEAR'] != 1992, 'ANGLE'] = np.nan
+dfout_v3wCHDSD = estimateangle(data_melt_v3wCHDSD)
+dfout_v3wCHDSD.loc[dfout_v3wCHDSD['YEAR'] != 1992, 'ANGLE'] = np.nan
 
 dfout_v3_bis = estimateangle(data_melt_v3_bis)
 dfout_v3_bis.loc[dfout_v3_bis['YEAR'] != 1992, 'ANGLE'] = np.nan
@@ -199,8 +199,8 @@ ax1.plot(dfout_v2['ANGLE'], dfout_v2['RADII'], marker='o', linestyle='--', marke
 ax1.plot(dfout_v3['ANGLE'], dfout_v3['RADII'], marker='*', linestyle='--', markersize=8, 
         color='blue', label="DRS1992IC401")
 
-# ax1.plot(dfout_v3wCWA['ANGLE'], dfout_v3wCWA['RADII'], marker='D', linestyle='--', markersize=7, 
-#         color='purple', label="DRS1992IC401wCHDSD")
+ax1.plot(dfout_v3wCHDSD['ANGLE'], dfout_v3wCHDSD['RADII'], marker='D', linestyle='--', markersize=7, 
+        color='purple', label="DRS1992IC401wCHDSD")
 
 ax1.plot(dfout_v3_bis['ANGLE'], dfout_v3_bis['RADII'], marker='>', linestyle='--', markersize=8, 
         color='hotpink', markeredgecolor='darkred', label="DRS1992IC401v3")
