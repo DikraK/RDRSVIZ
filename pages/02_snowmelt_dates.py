@@ -273,6 +273,9 @@ data_prcp_agg_v01  = data_prcp_agg_v01_[data_prcp_agg_v01_['year'] == 1992].rese
 data_prcp_agg_v01v3_ = load_prcp_data(domain, "DRS1992IC401v3")
 data_prcp_agg_v01v3  = data_prcp_agg_v01v3_[data_prcp_agg_v01v3_['year'] == 1992].reset_index(drop=True)
 
+data_prcp_agg_ic425_ = load_prcp_data(domain, "DRS1992IC425")
+data_prcp_agg_ic425  = data_prcp_agg_ic425_[data_prcp_agg_ic425_['year'] == 1992].reset_index(drop=True)
+
 
 unit = 1000
 
@@ -284,10 +287,14 @@ ax = doplottimeseries(ax, data_prcp_agg_v21, unit,
                     'o', 'sandybrown', 'sandybrown', "V2.1")
 
 ax = doplottimeseries(ax, data_prcp_agg_v01v3, unit, 
-                    '>', 'hotpink', 'darkred', "DRS1992IC401v3")
+                    '>', 'hotpink', 'darkred', "IC401v3")
                     
 ax = doplottimeseries(ax, data_prcp_agg_v01, unit, 
-                    '*', 'blue', 'blue', "DRS1992IC401")
+                    '*', 'blue', 'blue', "IC401")
+
+ax = doplottimeseries(ax, data_prcp_agg_ic425, unit, 
+                    'X', 'limegreen', 'forestgreen', "IC425")
+          
 
 ax.legend(loc="lower right", fontsize=7)
 ax.set_title('Precipitation accumulation over the domain', fontsize=9)
